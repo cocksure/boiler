@@ -1,0 +1,236 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, #1a365d 0%, #2d5a8e 100%);
+    color: white;
+    padding: 16px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.header-content h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-top: 2px;
+}
+
+/* Main layout */
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+    height: calc(100vh - 130px);
+}
+
+/* Panels */
+.panel {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.panel h2 {
+    font-size: 1.1rem;
+    padding: 14px 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    color: #1a365d;
+}
+
+/* Params panel */
+.params-panel {
+    overflow-y: auto;
+}
+
+.params-panel form {
+    padding: 16px 20px;
+}
+
+fieldset {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+}
+
+legend {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #2d5a8e;
+    padding: 0 6px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+    flex: 1;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+}
+
+label {
+    display: block;
+    font-size: 0.78rem;
+    color: #555;
+    margin-bottom: 3px;
+    font-weight: 500;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    transition: border-color 0.2s;
+    background: #fafbfc;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #2d5a8e;
+    box-shadow: 0 0 0 2px rgba(45, 90, 142, 0.15);
+}
+
+/* Buttons */
+.actions {
+    display: flex;
+    gap: 10px;
+    padding-top: 10px;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding-bottom: 10px;
+    border-top: 1px solid #e9ecef;
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2d5a8e, #1a365d);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1a365d, #0f2440);
+    box-shadow: 0 2px 6px rgba(26, 54, 93, 0.3);
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: #2d5a8e;
+}
+
+.btn-secondary:hover {
+    background: #cbd5e1;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Preview panel */
+.preview-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-area {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background: white;
+    overflow: auto;
+    padding: 10px;
+}
+
+.preview-area svg {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    border: 1px solid #e9ecef;
+    display: block;
+}
+
+.placeholder {
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+/* Loading spinner */
+.loading {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e2e8f0;
+    border-top: 3px solid #2d5a8e;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    background: white;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .container {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    .preview-area {
+        min-height: 400px;
+    }
+}

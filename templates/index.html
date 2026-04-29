@@ -1,0 +1,705 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="panel params-panel">
+        <h2>Параметры котла</h2>
+
+        <form id="boilerForm">
+            <!-- Тип котла -->
+            <fieldset>
+                <legend>Тип котла</legend>
+                <div class="form-group">
+                    <label for="boiler_type">Серия</label>
+                    <select id="boiler_type" name="boiler_type">
+                        <option value="horizontal_fire_tube">КВа-Гн — Горизонтальный жаротрубный</option>
+                        <option value="vertical">КВс/КОГн — Вертикальный</option>
+                        <option value="steam">Паровой котёл</option>
+                        <option value="solid_fuel">ОВТ/КВГ — Твёрдотопливный</option>
+                        <option value="boiler_room">МТУ — Проект котельной</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Название</label>
+                        <input type="text" id="name" name="name" value="Котёл">
+                    </div>
+                    <div class="form-group">
+                        <label for="fuel_type">Топливо</label>
+                        <select id="fuel_type" name="fuel_type">
+                            <option value="gas">Газ</option>
+                            <option value="solid">Твёрдое</option>
+                            <option value="liquid">Жидкое</option>
+                            <option value="combined">Комбинированное</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="power_kw">Мощность, кВт</label>
+                    <input type="number" id="power_kw" name="power_kw" value="1000" min="10" step="10">
+                </div>
+            </fieldset>
+
+            <!-- ═══ ГОРИЗОНТАЛЬНЫЙ ЖАРОТРУБНЫЙ ═══ -->
+            <div id="params_horizontal_fire_tube" class="type-params">
+                <fieldset>
+                    <legend>Корпус</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Наружный диаметр, мм</label>
+                            <input type="number" name="outer_diameter" value="1000" min="100" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Толщина стенки, мм</label>
+                            <input type="number" name="wall_thickness" value="8" min="1" step="0.5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Длина цилиндра, мм</label>
+                        <input type="number" name="total_length" value="3000" min="500" step="50">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Жаровая труба (1-й ход)</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Диаметр, мм</label>
+                            <input type="number" name="furnace_diameter" value="600" min="100" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Длина, мм</label>
+                            <input type="number" name="furnace_length" value="2000" min="200" step="50">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Дымогарные трубы</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Диаметр трубы, мм</label>
+                            <input type="number" name="smoke_tube_diameter" value="51" min="10" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Количество</label>
+                            <input type="number" name="smoke_tube_count" value="40" min="1" step="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Рядов</label>
+                        <input type="number" name="smoke_tube_rows" value="4" min="1" step="1">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Патрубки</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Вход воды, мм</label>
+                            <input type="number" name="inlet_diameter" value="80" min="20" step="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Выход воды, мм</label>
+                            <input type="number" name="outlet_diameter" value="80" min="20" step="5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Дымоход, мм</label>
+                        <input type="number" name="flue_diameter" value="250" min="50" step="10">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Позиция входа, мм</label>
+                            <input type="number" name="inlet_position_x" value="500" step="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Позиция выхода, мм</label>
+                            <input type="number" name="outlet_position_x" value="2500" step="50">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Опоры и днища</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Опоры (шт)</label>
+                            <input type="number" name="support_count" value="2" min="2" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Высота опор, мм</label>
+                            <input type="number" name="support_height" value="300" min="50" step="10">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ширина опор, мм</label>
+                            <input type="number" name="support_width" value="200" min="50" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Перед. днище, мм</label>
+                            <input type="number" name="front_head_thickness" value="12" min="4" step="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Заднее днище, мм</label>
+                        <input type="number" name="rear_head_thickness" value="12" min="4" step="1">
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- ═══ ВЕРТИКАЛЬНЫЙ ═══ -->
+            <div id="params_vertical" class="type-params" style="display:none">
+                <fieldset>
+                    <legend>Корпус</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Наружный диаметр, мм</label>
+                            <input type="number" name="outer_diameter" value="700" min="100" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Толщина стенки, мм</label>
+                            <input type="number" name="wall_thickness" value="6" min="1" step="0.5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Высота корпуса, мм</label>
+                        <input type="number" name="total_height" value="1500" min="500" step="50">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Топка</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Диаметр, мм</label>
+                            <input type="number" name="furnace_diameter" value="500" min="100" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Высота, мм</label>
+                            <input type="number" name="furnace_height" value="500" min="100" step="50">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Жаровые трубы</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Диаметр, мм</label>
+                            <input type="number" name="smoke_tube_diameter" value="51" min="10" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Количество</label>
+                            <input type="number" name="smoke_tube_count" value="20" min="1" step="1">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Патрубки</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Вход воды, мм</label>
+                            <input type="number" name="inlet_diameter" value="80" min="20" step="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Выход воды, мм</label>
+                            <input type="number" name="outlet_diameter" value="80" min="20" step="5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Дымоход, мм</label>
+                        <input type="number" name="flue_diameter" value="250" min="50" step="10">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Высота входа, мм</label>
+                            <input type="number" name="inlet_position_z" value="400" step="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Высота выхода, мм</label>
+                            <input type="number" name="outlet_position_z" value="1200" step="50">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Дополнительно</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Водяная рубашка, мм</label>
+                            <input type="number" name="jacket_gap" value="50" min="10" step="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Загрузочная дверца</label>
+                            <select name="has_door">
+                                <option value="false">Нет</option>
+                                <option value="true">Да</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Опоры (шт)</label>
+                            <input type="number" name="support_count" value="2" min="2">
+                        </div>
+                        <div class="form-group">
+                            <label>Высота опор, мм</label>
+                            <input type="number" name="support_height" value="300" min="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ширина опор, мм</label>
+                        <input type="number" name="support_width" value="200" min="50">
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- ═══ ПАРОВОЙ ═══ -->
+            <div id="params_steam" class="type-params" style="display:none">
+                <fieldset>
+                    <legend>Параметры пара</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Паропроизводительность, т/ч</label>
+                            <input type="number" name="steam_capacity" value="1.0" min="0.1" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Рабочее давление, МПа</label>
+                            <input type="number" name="pressure_mpa" value="0.8" min="0.1" step="0.1">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Корпус</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Наружный диаметр, мм</label>
+                            <input type="number" name="outer_diameter" value="1200" min="100" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Толщина стенки, мм</label>
+                            <input type="number" name="wall_thickness" value="10" min="1" step="0.5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Длина цилиндра, мм</label>
+                        <input type="number" name="total_length" value="3500" min="500" step="50">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Жаровая труба</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Диаметр, мм</label>
+                            <input type="number" name="furnace_diameter" value="650" min="100" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Длина, мм</label>
+                            <input type="number" name="furnace_length" value="2500" min="200" step="50">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Паросборник</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Диаметр, мм</label>
+                            <input type="number" name="steam_drum_diameter" value="400" min="100" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Длина, мм</label>
+                            <input type="number" name="steam_drum_length" value="2000" min="500" step="50">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Дымогарные трубы</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Диаметр, мм</label>
+                            <input type="number" name="smoke_tube_diameter" value="51" min="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Количество</label>
+                            <input type="number" name="smoke_tube_count" value="50" min="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Рядов</label>
+                        <input type="number" name="smoke_tube_rows" value="4" min="1">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Патрубки и опоры</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Питание воды, мм</label>
+                            <input type="number" name="inlet_diameter" value="80" min="20">
+                        </div>
+                        <div class="form-group">
+                            <label>Выход пара, мм</label>
+                            <input type="number" name="outlet_diameter" value="80" min="20">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Дымоход, мм</label>
+                        <input type="number" name="flue_diameter" value="300" min="50">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Опоры (шт)</label>
+                            <input type="number" name="support_count" value="2" min="2">
+                        </div>
+                        <div class="form-group">
+                            <label>Высота опор, мм</label>
+                            <input type="number" name="support_height" value="300" min="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ширина опор, мм</label>
+                        <input type="number" name="support_width" value="200" min="50">
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- ═══ ТВЁРДОТОПЛИВНЫЙ ═══ -->
+            <div id="params_solid_fuel" class="type-params" style="display:none">
+                <fieldset>
+                    <legend>Корпус</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Наружный диаметр, мм</label>
+                            <input type="number" name="outer_diameter" value="1000" min="100" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Толщина стенки, мм</label>
+                            <input type="number" name="wall_thickness" value="8" min="1" step="0.5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Длина корпуса, мм</label>
+                        <input type="number" name="total_length" value="3000" min="500" step="50">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Топка</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ширина, мм</label>
+                            <input type="number" name="furnace_width" value="800" min="200" step="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Высота, мм</label>
+                            <input type="number" name="furnace_height" value="600" min="200" step="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Длина / глубина, мм</label>
+                        <input type="number" name="furnace_length" value="1500" min="300" step="50">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Загрузка и зольник</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Дверца: ширина, мм</label>
+                            <input type="number" name="door_width" value="400" min="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Дверца: высота, мм</label>
+                            <input type="number" name="door_height" value="350" min="100">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Колосник: длина, мм</label>
+                            <input type="number" name="grate_length" value="1200" min="200">
+                        </div>
+                        <div class="form-group">
+                            <label>Зольник: высота, мм</label>
+                            <input type="number" name="ash_pit_height" value="250" min="50">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Дымогарные трубы</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Диаметр, мм</label>
+                            <input type="number" name="smoke_tube_diameter" value="51" min="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Количество</label>
+                            <input type="number" name="smoke_tube_count" value="30" min="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Рядов</label>
+                        <input type="number" name="smoke_tube_rows" value="3" min="1">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Патрубки и опоры</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Вход воды, мм</label>
+                            <input type="number" name="inlet_diameter" value="80" min="20">
+                        </div>
+                        <div class="form-group">
+                            <label>Выход воды, мм</label>
+                            <input type="number" name="outlet_diameter" value="80" min="20">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Дымоход, мм</label>
+                        <input type="number" name="flue_diameter" value="250" min="50">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Опоры (шт)</label>
+                            <input type="number" name="support_count" value="2" min="2">
+                        </div>
+                        <div class="form-group">
+                            <label>Высота опор, мм</label>
+                            <input type="number" name="support_height" value="300" min="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ширина опор, мм</label>
+                        <input type="number" name="support_width" value="200" min="50">
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- ═══ ПРОЕКТ КОТЕЛЬНОЙ (МТУ) ═══ -->
+            <div id="params_boiler_room" class="type-params" style="display:none;">
+                <fieldset>
+                    <legend>Помещение котельной</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Длина, мм</label>
+                            <input type="number" name="room_length" value="6000" min="3000" step="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Ширина, мм</label>
+                            <input type="number" name="room_width" value="4000" min="2000" step="100">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Высота стен, мм</label>
+                            <input type="number" name="room_height" value="2200" min="2000" step="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Высота конька, мм</label>
+                            <input type="number" name="roof_height" value="2500" min="2200" step="100">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Котлы</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Серия</label>
+                            <input type="text" name="boiler_series" value="КВс-300Гн">
+                        </div>
+                        <div class="form-group">
+                            <label>Мощность одного, кВт</label>
+                            <input type="number" name="boiler_power" value="300" min="50" step="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Количество котлов</label>
+                        <input type="number" name="boiler_count" value="2" min="1" max="6">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Длина котла, мм</label>
+                            <input type="number" name="boiler_length" value="1800" min="500" step="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Ширина/Ø, мм</label>
+                            <input type="number" name="boiler_width" value="950" min="300" step="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Высота котла, мм</label>
+                        <input type="number" name="boiler_height" value="1200" min="500" step="50">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Котлы — группа 2 (доп.)</legend>
+                    <div class="form-group">
+                        <label>Включить 2-й тип котла</label>
+                        <select name="boiler2_enabled">
+                            <option value="false" selected>Нет</option>
+                            <option value="true">Да (как ТУ-1400: разные котлы)</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Серия 2</label>
+                            <input type="text" name="boiler2_series" value="КВа-600Гн">
+                        </div>
+                        <div class="form-group">
+                            <label>Мощность, кВт</label>
+                            <input type="number" name="boiler2_power" value="600" min="50" step="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Количество</label>
+                        <input type="number" name="boiler2_count" value="2" min="1" max="4">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Длина, мм</label>
+                            <input type="number" name="boiler2_length" value="2500" min="500" step="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Ширина, мм</label>
+                            <input type="number" name="boiler2_width" value="1200" min="300" step="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Высота, мм</label>
+                        <input type="number" name="boiler2_height" value="1400" min="500" step="50">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Дымоходы</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Диаметр, мм</label>
+                            <input type="number" name="chimney_diameter" value="300" min="100" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Высота, мм</label>
+                            <input type="number" name="chimney_height" value="4000" min="2000" step="500">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Количество</label>
+                        <input type="number" name="chimney_count" value="2" min="1">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Фундаменты</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Под котёл: длина, мм</label>
+                            <input type="number" name="boiler_foundation_length" value="2400" min="500" step="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Под котёл: ширина, мм</label>
+                            <input type="number" name="boiler_foundation_width" value="1400" min="500" step="100">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Высота фундамента, мм</label>
+                        <input type="number" name="boiler_foundation_height" value="150" min="50" step="50">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Оборудование</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Теплообменник</label>
+                            <select name="has_heat_exchanger">
+                                <option value="true" selected>Да (ГВС)</option>
+                                <option value="false">Нет</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Мощн. ТО, кВт</label>
+                            <input type="number" name="heat_exchanger_power" value="200" min="50" step="50">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Расш. бак, л</label>
+                            <input type="number" name="expansion_tank_volume" value="100" min="10" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Кол-во баков</label>
+                            <input type="number" name="expansion_tank_count" value="2" min="1">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Насосы</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Зимние</label>
+                            <input type="number" name="pump_winter_count" value="2" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Летние</label>
+                            <input type="number" name="pump_summer_count" value="2" min="1">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>ГВС</label>
+                            <input type="number" name="pump_gvs_count" value="2" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Подпиточный</label>
+                            <input type="number" name="pump_makeup_count" value="1" min="1">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Трубопроводы</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Основной</label>
+                            <input type="text" name="pipe_main_dn" value="108x3.5">
+                        </div>
+                        <div class="form-group">
+                            <label>Отводы</label>
+                            <input type="text" name="pipe_branch_dn" value="57x3.5">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>ГВС</label>
+                        <input type="text" name="pipe_gvs_dn" value="89x3.5">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Арматура</legend>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Грязевик Ду, мм</label>
+                            <input type="number" name="mud_filter_dn" value="150" min="25" step="25">
+                        </div>
+                        <div class="form-group">
+                            <label>Водомер Ду, мм</label>
+                            <input type="number" name="water_meter_dn" value="25" min="15" step="5">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Жалюзийная решётка (шт)</label>
+                            <input type="number" name="louver_count" value="2" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Размер решётки, мм</label>
+                            <input type="number" name="louver_width" value="500" min="200" step="50">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- Кнопки -->
+            <div class="actions">
+                <button type="button" id="btnPreview" class="btn btn-primary">Предпросмотр</button>
+                <button type="button" id="btnExportSVG" class="btn btn-secondary">SVG</button>
+                <button type="button" id="btnExportDXF" class="btn btn-secondary">DXF</button>
+                <button type="button" id="btnExportPDF" class="btn btn-secondary">PDF</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="panel preview-panel">
+        <h2>Чертёж</h2>
+        <div id="previewContainer" class="preview-area">
+            <p class="placeholder">Выберите тип котла и нажмите «Предпросмотр»</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
