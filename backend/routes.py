@@ -84,6 +84,27 @@ async def export_dxf(data: dict):
     )
 
 
+def _register_cyrillic_font():
+    """Register DejaVu font for Cyrillic support in reportlab"""
+    import os
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont
+
+    font_paths = [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf",
+    ]
+    for fp in font_paths:
+        if os.path.exists(fp):
+            try:
+                pdfmetrics.registerFont(TTFont("DejaVuSans", fp))
+            except Exception:
+                pass
+            return True
+    return False
+
+
 @router.post("/api/export/pdf")
 async def export_pdf(data: dict):
     import io
@@ -94,7 +115,10 @@ async def export_pdf(data: dict):
 
     svg = _parse_and_draw(data)
 
-    # svglib нуждается в файле
+    if _register_cyrillic_font():
+        svg = svg.replace("ISOCPEUR, Arial, sans-serif", "DejaVuSans")
+        svg = svg.replace("ISOCPEUR,Arial,sans-serif", "DejaVuSans")
+
     tmp_svg = tempfile.NamedTemporaryFile(suffix=".svg", delete=False, mode="w", encoding="utf-8")
     tmp_svg.write(svg)
     tmp_svg.close()
